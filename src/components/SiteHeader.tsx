@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const links = [
   { to: "/", label: "Home" },
   { to: "/masterplan", label: "Masterplan" },
-  { to: "/villas/$slug", params: { slug: "type-a" }, label: "Villas" },
+  { to: "/villas/$slug", params: { slug: "type-a" as const }, label: "Villas" },
   { to: "/gallery", label: "Gallery" },
   { to: "/contact", label: "Contact" },
 ] as const;
@@ -46,7 +46,7 @@ export function SiteHeader() {
             <Link
               key={l.label}
               to={l.to}
-              params={"params" in l ? l.params : undefined}
+              {...("params" in l ? { params: l.params } : {})}
               className={`text-xs tracking-[0.2em] uppercase transition-colors hover:text-brass ${
                 scrolled ? "text-muted-foreground" : "text-ivory/80"
               }`}
@@ -79,7 +79,7 @@ export function SiteHeader() {
             <Link
               key={l.label}
               to={l.to}
-              params={"params" in l ? l.params : undefined}
+              {...("params" in l ? { params: l.params } : {})}
               onClick={() => setOpen(false)}
               className="py-3 text-sm tracking-[0.16em] text-foreground uppercase"
               activeProps={{ className: "text-brass" }}
