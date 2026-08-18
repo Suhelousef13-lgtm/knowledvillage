@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const links = [
   { to: "/", label: "Home" },
   { to: "/masterplan", label: "Masterplan" },
-  { to: "/villas/type-a", label: "Villas" },
+  { to: "/villas/$slug", params: { slug: "type-a" }, label: "Villas" },
   { to: "/gallery", label: "Gallery" },
   { to: "/contact", label: "Contact" },
 ] as const;
@@ -44,8 +44,9 @@ export function SiteHeader() {
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <Link
-              key={l.to}
+              key={l.label}
               to={l.to}
+              params={"params" in l ? l.params : undefined}
               className={`text-xs tracking-[0.2em] uppercase transition-colors hover:text-brass ${
                 scrolled ? "text-muted-foreground" : "text-ivory/80"
               }`}
@@ -76,8 +77,9 @@ export function SiteHeader() {
         <nav className="flex flex-col gap-1 border-t border-border bg-background px-5 pb-6 md:hidden">
           {links.map((l) => (
             <Link
-              key={l.to}
+              key={l.label}
               to={l.to}
+              params={"params" in l ? l.params : undefined}
               onClick={() => setOpen(false)}
               className="py-3 text-sm tracking-[0.16em] text-foreground uppercase"
               activeProps={{ className: "text-brass" }}
