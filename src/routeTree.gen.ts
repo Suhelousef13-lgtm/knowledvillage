@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as MasterplanRouteImport } from './routes/masterplan'
 import { Route as VillasSlugRouteImport } from './routes/villas.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MasterplanRoute = MasterplanRouteImport.update({
@@ -31,30 +37,34 @@ const VillasSlugRoute = VillasSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
   '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
   '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
   '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/masterplan' | '/villas/$slug'
+  fullPaths: '/' | '/gallery' | '/masterplan' | '/villas/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/masterplan' | '/villas/$slug'
-  id: '__root__' | '/' | '/masterplan' | '/villas/$slug'
+  to: '/' | '/gallery' | '/masterplan' | '/villas/$slug'
+  id: '__root__' | '/' | '/gallery' | '/masterplan' | '/villas/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GalleryRoute: typeof GalleryRoute
   MasterplanRoute: typeof MasterplanRoute
   VillasSlugRoute: typeof VillasSlugRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/masterplan': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GalleryRoute: GalleryRoute,
   MasterplanRoute: MasterplanRoute,
   VillasSlugRoute: VillasSlugRoute,
 }
