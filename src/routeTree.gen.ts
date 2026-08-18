@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MasterplanRouteImport } from './routes/masterplan'
 import { Route as VillasSlugRouteImport } from './routes/villas.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MasterplanRoute = MasterplanRouteImport.update({
+  id: '/masterplan',
+  path: '/masterplan',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VillasSlugRoute = VillasSlugRouteImport.update({
@@ -25,27 +31,31 @@ const VillasSlugRoute = VillasSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/masterplan': typeof MasterplanRoute
   '/villas/$slug': typeof VillasSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/villas/$slug'
+  fullPaths: '/' | '/masterplan' | '/villas/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/villas/$slug'
-  id: '__root__' | '/' | '/villas/$slug'
+  to: '/' | '/masterplan' | '/villas/$slug'
+  id: '__root__' | '/' | '/masterplan' | '/villas/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MasterplanRoute: typeof MasterplanRoute
   VillasSlugRoute: typeof VillasSlugRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/masterplan': {
+      id: '/masterplan'
+      path: '/masterplan'
+      fullPath: '/masterplan'
+      preLoaderRoute: typeof MasterplanRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/villas/$slug': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MasterplanRoute: MasterplanRoute,
   VillasSlugRoute: VillasSlugRoute,
 }
 export const routeTree = rootRouteImport
